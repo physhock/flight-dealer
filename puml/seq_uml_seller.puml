@@ -1,0 +1,12 @@
+@startuml
+actor Продавец
+participant Сделка
+
+activate Сделка
+
+Продавец -> Сделка: Вещь
+activate Продавец
+Сделка -> Продавец: Оплата
+deactivate Продавец
+
+@enduml

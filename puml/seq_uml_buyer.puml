@@ -1,0 +1,30 @@
+@startuml
+
+actor Покупатель
+
+
+participant Лот
+participant Товар
+participant Предложение
+participant Сделка
+
+activate Лот
+activate Товар
+activate Предложение
+
+Покупатель -> Лот: Поиск (name)
+activate Покупатель
+
+Лот --> Покупатель: id_товара
+Покупатель -> Товар: Поиск (size)
+Товар -> Предложение: Поиск (min)
+Предложение --> Покупатель: Предложение
+Покупатель -> Сделка: Ставка
+activate Сделка
+
+Сделка -> Покупатель: Вещь
+
+deactivate Сделка
+deactivate Покупатель
+
+@enduml

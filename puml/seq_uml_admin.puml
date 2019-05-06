@@ -1,0 +1,10 @@
+@startuml
+actor Администратор
+participant Сделка
+
+activate Сделка
+
+Администратор -> Сделка : Проверка
+activate Администратор
+
+@enduml
