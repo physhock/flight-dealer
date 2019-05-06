@@ -9,9 +9,15 @@ public class Bet {
 
     public int bet;
 
+    public Buyer getBuyer() {
+        return buyer;
+    }
+
     public Bet(Buyer buyer, Item item, int bet) {
         this.buyer = buyer;
         this.item = item;
         this.bet = bet;
     }
+
+
 }
