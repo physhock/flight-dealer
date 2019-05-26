@@ -24,6 +24,9 @@ public class BetRepository extends Repository {
         return bets;
     }
 
+    public void removeBet(Bet bet) {
+        bets.remove(bet);
+    }
 
     public void placeBet(Bet bet) {
 

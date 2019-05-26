@@ -1,6 +1,9 @@
 package businesslogic;
 
+import storage.DealRepository;
 import storage.UserRepository;
+import user.Buyer;
+import user.Seller;
 import user.User;
 
 public class Deal {
@@ -15,8 +18,27 @@ public class Deal {
         this.bet = bet;
         this.setDealStatus(dealStatus.OPEN);
         this.administrator = UserRepository.getInstance().getUsers().stream()
-                .filter(x -> x.getClass().getSimpleName().equals("Administrator") && x.getUserStatus().equals(User.UserStatus.ONLINE)).findFirst().get();
+                .filter(x -> x.getClass().getSimpleName().equals("Administrator") && x.getUserStatus().equals(User.UserStatus.ONLINE))
+                .findFirst()
+                .orElse(UserRepository.getInstance().getUsers().stream().filter(user -> user.getClass().getSimpleName().equals("Administrator")).findAny().get());
+        DealRepository.getInstance().placeDeal(this);
 
+    }
+
+    public Buyer getBuyer() {
+        return bet.getBuyer();
+    }
+
+    public DealStatus getDealStatus() {
+        return dealStatus;
+    }
+
+    public Seller getSeller() {
+        return ask.getSeller();
+    }
+
+    public Item getItem() {
+        return ask.item;
     }
 
     public void setDealStatus(DealStatus dealStatus) {

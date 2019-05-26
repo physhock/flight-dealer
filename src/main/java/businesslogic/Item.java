@@ -1,5 +1,7 @@
 package businesslogic;
 
+import storage.ItemRepository;
+
 import java.util.Objects;
 
 public class Item {
@@ -10,6 +12,7 @@ public class Item {
     public Item(String name, int size) {
         this.name = name;
         this.size = size;
+        ItemRepository.getInstance().addItem(this);
     }
 
     @Override

@@ -12,6 +12,10 @@ public class DealRepository extends Repository {
         this.deals = objects;
     }
 
+    public void placeDeal(Deal deal){
+        deals.add(deal);
+    }
+
     public static DealRepository getInstance() {
         if (instance == null) {
             instance = new DealRepository(new ArrayList<>());
