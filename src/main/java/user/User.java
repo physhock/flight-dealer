@@ -1,12 +1,17 @@
 package user;
 
+import storage.UserRepository;
+
 import java.util.Objects;
+
 
 public abstract class User {
 
     private String userName;
     private String password;
-    public enum Status{
+    private UserStatus userStatus;
+
+    public enum UserStatus {
         ONLINE,
         OFFLINE
     }
@@ -14,6 +19,15 @@ public abstract class User {
     public User(String userName, String password) {
         this.userName = userName;
         this.password = password;
+        UserRepository.getInstance().addUser(this);
+    }
+
+    public UserStatus getUserStatus() {
+        return userStatus;
+    }
+
+    public void setUserStatus(UserStatus userStatus) {
+        this.userStatus = userStatus;
     }
 
     public String getUserName() {
@@ -24,24 +38,20 @@ public abstract class User {
         return password;
     }
 
-    //Start session
-    public int logIn(){
+    public int logIn() {
 
-        if (this.userName.isEmpty() || this.password.isEmpty()){
+        if (this.userName.isEmpty() || this.password.isEmpty()) {
             return -1;
         }
 
+        setUserStatus(UserStatus.ONLINE);
         return 0;
     }
 
-    //End session
-    public int logOut(){
+    public int logOut() {
+
+        setUserStatus(UserStatus.OFFLINE);
         return 0;
-    }
-
-
-    public void searchItem(String name){
-
     }
 
     @Override
