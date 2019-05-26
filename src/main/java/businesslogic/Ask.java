@@ -4,10 +4,9 @@ import user.Seller;
 
 public class Ask {
 
-    private Seller seller;
     public Item item;
-
     public int ask;
+    private Seller seller;
 
     public Ask(Seller seller, Item item, int ask) {
         this.seller = seller;
@@ -15,7 +14,9 @@ public class Ask {
         this.ask = ask;
     }
 
-
+    public Seller getSeller() {
+        return seller;
+    }
 
     public int getAsk() {
         return ask;

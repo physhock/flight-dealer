@@ -1,14 +1,29 @@
 package user;
 
-public class Administrator extends User{
+import businesslogic.Deal;
+import storage.DealRepository;
+
+import java.util.ArrayList;
+import java.util.stream.Collectors;
+
+public class Administrator extends User {
 
     public Administrator(String userName, String password) {
         super(userName, password);
     }
 
-    public boolean aprooveDeal(int dealId){ return true;}
+    private ArrayList<Deal> deals;
 
-    public boolean rejectDeal(int dealId) {return false;}
+    private void searchDeals() {
+        deals = DealRepository.getInstance().getDeals().stream()
+                .filter(deal -> deal.getAdministrator().getUserName().equals(this.getUserName()))
+                .collect(Collectors.toCollection(ArrayList::new));
+    }
 
+    public void makeDecision(Deal deal, Deal.DealStatus dealStatus){
+
+        deal.setDealStatus(dealStatus);
+
+    }
 
 }

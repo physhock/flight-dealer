@@ -11,11 +11,6 @@ public abstract class User {
     private String password;
     private UserStatus userStatus;
 
-    public enum UserStatus {
-        ONLINE,
-        OFFLINE
-    }
-
     public User(String userName, String password) {
         this.userName = userName;
         this.password = password;
@@ -32,10 +27,6 @@ public abstract class User {
 
     public String getUserName() {
         return userName;
-    }
-
-    public String getPassword() {
-        return password;
     }
 
     public int logIn() {
@@ -65,5 +56,10 @@ public abstract class User {
     @Override
     public int hashCode() {
         return Objects.hash(userName);
+    }
+
+    public enum UserStatus {
+        ONLINE,
+        OFFLINE
     }
 }

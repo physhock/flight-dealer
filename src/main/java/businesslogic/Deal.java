@@ -10,21 +10,26 @@ public class Deal {
     private User administrator;
     private DealStatus dealStatus;
 
-    public enum DealStatus {
-        OPEN,
-        CLOSED
-    }
-
     public Deal(Ask ask, Bet bet) {
         this.ask = ask;
         this.bet = bet;
         this.setDealStatus(dealStatus.OPEN);
         this.administrator = UserRepository.getInstance().getUsers().stream()
-                .filter(x -> x.getClass().getCanonicalName().equals("Administrator") && x.getUserStatus().equals(User.UserStatus.ONLINE)).findFirst().get();
+                .filter(x -> x.getClass().getSimpleName().equals("Administrator") && x.getUserStatus().equals(User.UserStatus.ONLINE)).findFirst().get();
 
     }
 
     public void setDealStatus(DealStatus dealStatus) {
         this.dealStatus = dealStatus;
+    }
+
+    public User getAdministrator() {
+        return administrator;
+    }
+
+    public enum DealStatus {
+        OPEN,
+        APPROVED,
+        CLOSED
     }
 }
