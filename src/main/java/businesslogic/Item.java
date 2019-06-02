@@ -7,9 +7,9 @@ import java.util.Objects;
 public class Item extends AbstractDomain {
 
     public String name;
-    public int size;
+    public String size;
 
-    public Item(String name, int size) {
+    public Item(String name, String size) {
         this.name = name;
         this.size = size;
         ItemRepository.getInstance().addItem(this);

@@ -10,12 +10,14 @@ import org.junit.jupiter.api.Test;
 import storage.AskRepository;
 import storage.BetRepository;
 import storage.DealRepository;
+import storage.ItemRepository;
 import user.Administrator;
 import user.Buyer;
 import user.Seller;
 
 import java.util.ArrayList;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 
@@ -36,7 +38,7 @@ class MarketplaceTest {
         administrator = new Administrator("adm", "321");
         buyer = new Buyer("Dima", "123");
         seller = new Seller("Fedor", "123");
-        item = new Item("abibas", 12);
+        item = new Item("abibas", "12");
     }
 
     @BeforeEach
@@ -146,9 +148,17 @@ class MarketplaceTest {
     }
 
     @Test
-    public void itemMapperTest() {
+    public void itemMapperTestInsert() {
         Long id = item.getId();
         assertTrue(id != 0);
+
+    }
+
+    @Test
+    public void itemMapperTestSearch() {
+
+        assertEquals(item, ItemRepository.getInstance().searchByNameAndSize(item.name, item.size));
+        System.out.println(ItemRepository.getInstance().searchByNameAndSize(item.name, item.size).getId());
 
     }
 

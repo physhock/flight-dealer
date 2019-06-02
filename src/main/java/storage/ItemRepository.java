@@ -31,10 +31,16 @@ public class ItemRepository extends Repository {
         }
     }
 
-//    public Item searchByNameAndSize(String name, int size) {
-//        return items.stream().filter(item -> item.name.equals(name) && item.size == size)
-//                .findFirst().orElseThrow(() -> new NoSuchElementException(name + "with size " + size + " not present yet"));
-//    }
+    public Item searchByNameAndSize(String name, String size) {
+
+        try {
+            return  itemMapper.find(name, size);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+
+    }
 
 
 }

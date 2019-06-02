@@ -17,53 +17,37 @@ public class ItemMapper {
     }
 
     private String findStatement() {
-        return "SELECT" + "COLUMNS" + "FROM item" + "WHERE id = ?";
+        return "SELECT item_id FROM item WHERE item_name = ? AND size = ?";
     }
 
     private String insertStatement() {
         return "INSERT INTO item (item_name,size) VALUES (?, ?) RETURNING item_id";
     }
 
-    public Item find(Long id) throws SQLException {
+    public Item find(String name, String size) throws SQLException {
 
         //`size` not actually loadedMap key!
         // but item_id actually is!
-        Item result = loadedMap.get(id);
+        Long item_id = loadedMap.entrySet().stream()
+                .filter(item ->item.getValue().name.equals(name) && item.getValue().size.equals(size)).findFirst().get().getKey();
 
-        if (result != null)
-            return result;
+        if (item_id != null)
+            return loadedMap.get(item_id);
         PreparedStatement findStatement;
         try {
             findStatement = connection.prepareStatement(findStatement());
-            findStatement.setLong(1, id);
+            findStatement.setString(1, name);
+            findStatement.setObject(2, size, Types.OTHER);
             ResultSet resultSet = findStatement.executeQuery();
             resultSet.next();
-            result = load(resultSet);
-            return result;
+            item_id = resultSet.getLong(1);
+            Item item = new Item(name, size);
+            item.setId(item_id);
+            loadedMap.put(item_id, item);
+            return item;
         } catch (SQLException e) {
             throw new SQLException(e);
         }
-    }
-
-
-    private Item load(ResultSet resultSet) throws SQLException {
-
-        Long item_id = resultSet.getLong(1);
-        if (loadedMap.containsKey(item_id))
-            return loadedMap.get(item_id);
-        Item result = doLoad(resultSet);
-        loadedMap.put(item_id, result);
-        return result;
-    }
-
-
-    private Item doLoad(ResultSet resultSet) throws SQLException {
-
-        String item_name = resultSet.getString(2);
-        String size = resultSet.getString(3);
-        // Loosing precision here!!!
-        return new Item(item_name, Integer.getInteger(size));
-
     }
 
     public Long insert(Item item) throws SQLException {
