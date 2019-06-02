@@ -1,7 +1,6 @@
 import businesslogic.Ask;
 import businesslogic.Deal;
 import businesslogic.Item;
-import businesslogic.Order;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import storage.AskRepository;
@@ -45,8 +44,8 @@ class MarketplaceTest {
     @BeforeEach
     public void dataLoad() {
         logInUsers();
-        seller.makeAsk(item, 2500);
         buyer.makeBet(item, 2500);
+        seller.makeAsk(item, 2500);
 
         administrator.makeDecision(DealRepository.getInstance().getDeals()
                 .stream().filter(deal1 -> deal1.getAdministrator().equals(administrator)).findFirst().get(), Deal.DealStatus.APPROVED);
@@ -75,9 +74,7 @@ class MarketplaceTest {
     @Test
     public void checkDeal() {
 
-        ArrayList<Order> orders = buyer.getOrders();
-
-        assertFalse(orders.isEmpty());
+        assertFalse(buyer.getOrders().isEmpty());
 
     }
 

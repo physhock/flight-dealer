@@ -25,6 +25,12 @@ public class Deal {
 
     }
 
+    //TODO
+    // 1.Remove admin from deal constructor, create service for managing admins to deals!! input deal ret deal with adm(strategy naznachenia)
+    // 2. Add  'id' to all domains (item, order,  etc) mb with help of abstractDomain
+    // 3. UI last task, screen shot from Michael
+    // 4. FIX tests, one big for BP, and many little tests for the use-cases
+
     public Buyer getBuyer() {
         return bet.getBuyer();
     }
