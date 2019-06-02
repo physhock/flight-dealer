@@ -1,7 +1,5 @@
 package businesslogic;
 
-import java.util.Random;
-
 public abstract class AbstractDomain {
 
     private Long id;
@@ -9,10 +7,14 @@ public abstract class AbstractDomain {
     public AbstractDomain() {
         // TODO
         //  get next id from DB
-        this.id = new Random().nextLong();
+        this.id = Long.valueOf(-1);
     }
 
     public Long getId() {
         return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 }

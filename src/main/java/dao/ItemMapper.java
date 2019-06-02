@@ -2,10 +2,7 @@ package dao;
 
 import businesslogic.Item;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.HashMap;
 
 public class ItemMapper {
@@ -24,45 +21,43 @@ public class ItemMapper {
     }
 
     private String insertStatement() {
-        return "INSERT INTO item VALUES (? ? ?)";
+        return "INSERT INTO item (item_name,size) VALUES (?, ?) RETURNING item_id";
     }
 
-    public Item find(Long item_id) throws SQLException {
+    public Item find(Long id) throws SQLException {
 
         //`size` not actually loadedMap key!
         // but item_id actually is!
-        Item result = loadedMap.get(item_id);
+        Item result = loadedMap.get(id);
 
         if (result != null)
             return result;
         PreparedStatement findStatement;
         try {
             findStatement = connection.prepareStatement(findStatement());
-            findStatement.setLong(1, item_id);
+            findStatement.setLong(1, id);
             ResultSet resultSet = findStatement.executeQuery();
             resultSet.next();
             result = load(resultSet);
             return result;
         } catch (SQLException e) {
             throw new SQLException(e);
-        } finally {
-            //cleanUp
         }
     }
 
 
-    public Item load(ResultSet resultSet) throws SQLException {
+    private Item load(ResultSet resultSet) throws SQLException {
 
         Long item_id = resultSet.getLong(1);
         if (loadedMap.containsKey(item_id))
             return loadedMap.get(item_id);
-        Item result = doLoad(item_id, resultSet);
+        Item result = doLoad(resultSet);
         loadedMap.put(item_id, result);
         return result;
     }
 
 
-    public Item doLoad(Long itemId, ResultSet resultSet) throws SQLException {
+    private Item doLoad(ResultSet resultSet) throws SQLException {
 
         String item_name = resultSet.getString(2);
         String size = resultSet.getString(3);
@@ -75,30 +70,19 @@ public class ItemMapper {
         PreparedStatement insertStatement = null;
         try {
             insertStatement = connection.prepareStatement(insertStatement());
-            //id??
-            Long item_id = findNextDatabaseId();
-            insertStatement.setInt(1, item_id.intValue());
             doInsert(item, insertStatement);
-            insertStatement.execute();
-            loadedMap.put(item_id, item);
-            return item_id;
+            ResultSet item_id = insertStatement.executeQuery();
+            item_id.next();
+            loadedMap.put(item_id.getLong(1), item);
+            return item_id.getLong(1);
         } catch (SQLException e) {
-            throw new SQLException();
-        } finally {
-            //cleanUp
+           throw new SQLException(e);
         }
-
     }
 
-    public void doInsert(Item item, PreparedStatement insertStatement) throws SQLException {
+    private void doInsert(Item item, PreparedStatement insertStatement) throws SQLException {
 
-        insertStatement.setString(2, item.name);
-        insertStatement.setString(3, String.valueOf(item.size));
+        insertStatement.setString(1, item.name);
+        insertStatement.setObject(2, item.size, Types.OTHER);
     }
-
-    public Long findNextDatabaseId() {
-        return new Long(1);
-    }
-
-
 }

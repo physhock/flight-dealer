@@ -2,7 +2,9 @@ import businesslogic.Ask;
 import businesslogic.Bet;
 import businesslogic.Deal;
 import businesslogic.Item;
+import dao.DB;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import storage.AskRepository;
@@ -19,14 +21,23 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class MarketplaceTest {
 
-    private Administrator administrator = new Administrator("adm", "321");
-    private Buyer buyer = new Buyer("Dima", "123");
-    private Seller seller = new Seller("Fedor", "123");
-    private Item item = new Item("abibas", 42);
+    private static Administrator administrator;
+    private static Buyer buyer;
+    private static Seller seller;
+    private static Item item;
 
     private ArrayList<Ask> asks = AskRepository.getInstance().getAsks();
     private ArrayList<Bet> bets = BetRepository.getInstance().getBets();
     private ArrayList<Deal> deals = DealRepository.getInstance().getDeals();
+
+    @BeforeAll
+    public static void initDB() {
+        DB.startDB();
+        administrator = new Administrator("adm", "321");
+        buyer = new Buyer("Dima", "123");
+        seller = new Seller("Fedor", "123");
+        item = new Item("abibas", 12);
+    }
 
     @BeforeEach
     public void logInUsers() {
@@ -131,6 +142,13 @@ class MarketplaceTest {
         administrator.logOut();
         buyer.logOut();
         seller.logOut();
+
+    }
+
+    @Test
+    public void itemMapperTest() {
+        Long id = item.getId();
+        assertTrue(id != 0);
 
     }
 
