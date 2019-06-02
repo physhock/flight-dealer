@@ -2,7 +2,7 @@ package businesslogic;
 
 import user.Buyer;
 
-public class Bet {
+public class Bet extends AbstractDomain {
 
     public Item item;
     public int bet;

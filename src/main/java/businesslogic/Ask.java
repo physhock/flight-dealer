@@ -2,7 +2,7 @@ package businesslogic;
 
 import user.Seller;
 
-public class Ask {
+public class Ask extends AbstractDomain {
 
     public Item item;
     public int ask;
@@ -12,6 +12,7 @@ public class Ask {
         this.seller = seller;
         this.item = item;
         this.ask = ask;
+
     }
 
     public Seller getSeller() {

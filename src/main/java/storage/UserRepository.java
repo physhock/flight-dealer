@@ -27,4 +27,5 @@ public class UserRepository extends Repository {
     public ArrayList<User> getUsers() {
         return users;
     }
+
 }

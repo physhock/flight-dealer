@@ -1,28 +1,21 @@
 package user;
 
 import businesslogic.*;
+import services.AssignService;
 import storage.AskRepository;
 import storage.BetRepository;
 import storage.DealRepository;
 
 import java.util.ArrayList;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 public class Buyer extends User {
 
-    private ArrayList<Bet> bets;
     private ArrayList<Order> orders;
 
     public Buyer(String userName, String password) {
         super(userName, password);
         this.orders = new ArrayList<>();
-    }
-
-    private void searchBets() {
-        bets = BetRepository.getInstance().getBets().stream()
-                .filter(bet -> bet.getBuyer().getUserName().equals(this.getUserName()))
-                .collect(Collectors.toCollection(ArrayList::new));
     }
 
     public void addOrder(Order order) {
@@ -39,7 +32,8 @@ public class Buyer extends User {
         Optional<Ask> ask = checkForAsk(newBet);
 
         if (ask.isPresent()) {
-            new Deal(ask.get(), newBet);
+            DealRepository.getInstance()
+                    .placeDeal(AssignService.assignAdministratorToDeal(new Deal(ask.get(), newBet)));
             AskRepository.getInstance().removeAsk(ask.get());
         } else
             BetRepository.getInstance().placeBet(newBet);

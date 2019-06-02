@@ -1,6 +1,6 @@
 package businesslogic;
 
-public class Order {
+public class Order extends AbstractDomain {
     private Item item;
     private String trackingId;
 

@@ -3,18 +3,31 @@ package user;
 import storage.UserRepository;
 
 import java.util.Objects;
+import java.util.Random;
 
 
 public abstract class User {
 
+    private Long id;
     private String userName;
     private String password;
     private UserStatus userStatus;
 
     public User(String userName, String password) {
+        // TODO
+        // get next id from DB
+        this.id = new Random().nextLong();
         this.userName = userName;
         this.password = password;
         UserRepository.getInstance().addUser(this);
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public UserStatus getUserStatus() {

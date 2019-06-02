@@ -4,7 +4,7 @@ import storage.ItemRepository;
 
 import java.util.Objects;
 
-public class Item {
+public class Item extends AbstractDomain {
 
     public String name;
     public int size;

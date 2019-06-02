@@ -9,15 +9,17 @@ import java.util.stream.Collectors;
 
 public class Administrator extends User {
 
-    private ArrayList<Deal> deals;
+    public ArrayList<Deal> deals;
 
     public Administrator(String userName, String password) {
         super(userName, password);
+        this.deals = findDeals();
     }
 
-    private void searchDeals() {
-        deals = DealRepository.getInstance().getDeals().stream()
-                .filter(deal -> deal.getAdministrator().getUserName().equals(this.getUserName()))
+    private ArrayList<Deal> findDeals() {
+
+        return DealRepository.getInstance().getDeals().stream()
+                .filter(deal -> deal.getAdministrator().equals(this) && deal.getDealStatus().equals(Deal.DealStatus.OPEN))
                 .collect(Collectors.toCollection(ArrayList::new));
     }
 
