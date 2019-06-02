@@ -15,7 +15,7 @@ public abstract class User {
 
     public User(String userName, String password) {
         // TODO
-        // get next id from DB
+        //  get next id from DB
         this.id = new Random().nextLong();
         this.userName = userName;
         this.password = password;

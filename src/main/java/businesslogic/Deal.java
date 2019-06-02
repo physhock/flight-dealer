@@ -22,7 +22,6 @@ public class Deal extends AbstractDomain {
 
     //TODO
     // 3. UI last task, screen shot from Michael
-    // 4. FIX tests, one big for BP, and many little tests for the use-cases
 
     public DealStatus getDealStatus() {
         return dealStatus;
