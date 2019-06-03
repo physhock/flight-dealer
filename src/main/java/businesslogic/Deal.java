@@ -55,7 +55,10 @@ public class Deal extends AbstractDomain {
     }
 
     //TODO
-    // 3. UI last task, screen shot from Michael
+    // 1. Update BP logic
+    // 2. Add queries to repos
+    // 3. FIX TESTS!
+    // 4. Start implementing UI
 
     public DealStatus getDealStatus() {
         return dealStatus;

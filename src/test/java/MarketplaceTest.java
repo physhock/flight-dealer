@@ -2,7 +2,6 @@ import businesslogic.Ask;
 import businesslogic.Bet;
 import businesslogic.Deal;
 import businesslogic.Item;
-import utills.DB;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -14,12 +13,11 @@ import storage.ItemRepository;
 import user.Administrator;
 import user.Buyer;
 import user.Seller;
+import utills.DB;
 
 import java.util.ArrayList;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-
 
 class MarketplaceTest {
 
