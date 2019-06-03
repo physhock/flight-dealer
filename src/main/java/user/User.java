@@ -1,25 +1,39 @@
 package user;
 
-import storage.UserRepository;
+import org.hibernate.annotations.ColumnTransformer;
+import org.hibernate.annotations.GenericGenerator;
 
+import javax.persistence.*;
 import java.util.Objects;
-import java.util.Random;
 
-
+@MappedSuperclass
 public abstract class User {
 
+    @Id
+    @GeneratedValue(generator = "increment")
+    @GenericGenerator(name = "increment", strategy = "increment")
     private Long id;
+
     private String userName;
+
+    @Column(name = "pswd")
+    @ColumnTransformer(
+            read = "decrypt( 'AES', '00', pswd  )",
+            write = "encrypt('AES', '00', ?)"
+    )
     private String password;
+
+    @Enumerated(EnumType.ORDINAL)
+    @Column(name = "user_status")
     private UserStatus userStatus;
 
-    public User(String userName, String password) {
-        // TODO
-        //  get next id from DB
-        this.id = new Random().nextLong();
+    public User() {
+    }
+
+    public User(String userName, String password, UserStatus userStatus) {
         this.userName = userName;
         this.password = password;
-        UserRepository.getInstance().addUser(this);
+        this.userStatus = userStatus;
     }
 
     public Long getId() {
@@ -40,6 +54,18 @@ public abstract class User {
 
     public String getUserName() {
         return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public int logIn() {

@@ -1,13 +1,20 @@
 package businesslogic;
 
+import org.hibernate.annotations.GenericGenerator;
+
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.MappedSuperclass;
+
+@MappedSuperclass
 public abstract class AbstractDomain {
 
+    @Id
+    @GeneratedValue(generator = "increment")
+    @GenericGenerator(name = "increment", strategy = "increment")
     private Long id;
 
     public AbstractDomain() {
-        // TODO
-        //  get next id from DB
-        this.id = Long.valueOf(-1);
     }
 
     public Long getId() {

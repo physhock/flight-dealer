@@ -4,16 +4,34 @@ import businesslogic.Deal;
 import businesslogic.Order;
 import storage.DealRepository;
 
+import javax.persistence.Entity;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 import java.util.ArrayList;
 import java.util.stream.Collectors;
 
+@Entity(name = "Administrator")
+@Table(name = "administrators")
 public class Administrator extends User {
 
-    public ArrayList<Deal> deals;
+    @OneToMany
+    private ArrayList<Deal> deals = new ArrayList<>();
 
-    public Administrator(String userName, String password) {
-        super(userName, password);
-        this.deals = findDeals();
+    public Administrator(ArrayList<Deal> deals) {
+        this.deals = deals;
+    }
+
+    public Administrator(String userName, String password, UserStatus userStatus, ArrayList<Deal> deals) {
+        super(userName, password, userStatus);
+        this.deals = deals;
+    }
+
+    public ArrayList<Deal> getDeals() {
+        return deals;
+    }
+
+    public void setDeals(ArrayList<Deal> deals) {
+        this.deals = deals;
     }
 
     private ArrayList<Deal> findDeals() {
