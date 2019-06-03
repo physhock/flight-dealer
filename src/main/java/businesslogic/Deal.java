@@ -1,5 +1,6 @@
 package businesslogic;
 
+import user.Administrator;
 import user.Buyer;
 import user.Seller;
 import user.User;
@@ -17,13 +18,13 @@ public class Deal extends AbstractDomain {
     private Bet bet;
 
     @OneToOne
-    private User administrator;
+    private Administrator administrator;
 
     @Enumerated(EnumType.ORDINAL)
     @Column(name = "deal_status")
     private DealStatus dealStatus;
 
-    public Deal(Ask ask, Bet bet, User administrator, DealStatus dealStatus) {
+    public Deal(Ask ask, Bet bet, Administrator administrator, DealStatus dealStatus) {
         this.ask = ask;
         this.bet = bet;
         this.administrator = administrator;
@@ -76,7 +77,7 @@ public class Deal extends AbstractDomain {
         return administrator;
     }
 
-    public void setAdministrator(User administrator) {
+    public void setAdministrator(Administrator administrator) {
         this.administrator = administrator;
         this.setDealStatus(DealStatus.OPEN);
     }

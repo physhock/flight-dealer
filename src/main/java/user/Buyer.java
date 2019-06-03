@@ -1,15 +1,14 @@
 package user;
 
 import businesslogic.*;
-import services.AssignService;
 import storage.AskRepository;
-import storage.BetRepository;
 import storage.DealRepository;
 
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Entity(name = "User")
@@ -17,7 +16,7 @@ import java.util.Optional;
 public class Buyer extends User {
 
     @OneToMany
-    private ArrayList<Order> orders = new ArrayList<>();
+    private List<Order> orders = new ArrayList<>();
 
     public Buyer(ArrayList<Order> orders) {
         this.orders = orders;
@@ -35,7 +34,7 @@ public class Buyer extends User {
         orders.add(order);
     }
 
-    public ArrayList<Order> getOrders() {
+    public List<Order> getOrders() {
         return orders;
     }
 
@@ -60,14 +59,14 @@ public class Buyer extends User {
     public void closeOrder(String trackingId) {
         Order delivered = orders.stream().filter(order -> order.getTrackingId().equals(trackingId)).findFirst().get();
         orders.remove(delivered);
-        DealRepository.getInstance().getDeals().stream()
+        DealRepository.getDeals().stream()
                 .filter(deal -> deal.getItem().equals(delivered.getItem()) && deal.getBuyer().equals(this))
                 .findFirst().get().setDealStatus(Deal.DealStatus.CLOSED);
     }
 
     private Optional<Ask> checkForAsk(Bet bet) {
 
-        return AskRepository.getInstance().getAsks()
+        return AskRepository.getAsks()
                 .stream().filter(x -> x.getItem().equals(bet.getItem()) && x.getAsk() == bet.getBet())
                 .findFirst();
     }

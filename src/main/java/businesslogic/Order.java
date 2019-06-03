@@ -7,7 +7,6 @@ import javax.persistence.Table;
 @Entity(name = "Order")
 @Table(name = "orders")
 public class Order extends AbstractDomain {
-
     @OneToOne
     private Item item;
 

@@ -1,30 +1,24 @@
 package storage;
 
+import org.hibernate.Session;
 import user.User;
 
 import java.util.ArrayList;
 
 public class UserRepository extends Repository {
 
-    private static UserRepository instance;
-    private ArrayList<User> users;
+    private static ArrayList<User> users;
 
-    public UserRepository(ArrayList<User> users) {
-        this.users = users;
-    }
-
-    public static UserRepository getInstance() {
-        if (instance == null) {
-            instance = new UserRepository(new ArrayList<>());
-        }
-        return instance;
+    public UserRepository(Session session, ArrayList<User> users) {
+        super(session);
+        UserRepository.users = users;
     }
 
     public void addUser(User user) {
         users.add(user);
     }
 
-    public ArrayList<User> getUsers() {
+    public static ArrayList<User> getUsers() {
         return users;
     }
 

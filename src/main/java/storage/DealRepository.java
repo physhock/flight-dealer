@@ -1,29 +1,23 @@
 package storage;
 
 import businesslogic.Deal;
+import org.hibernate.Session;
 
 import java.util.ArrayList;
 
 public class DealRepository extends Repository {
-    private static DealRepository instance;
-    private ArrayList<Deal> deals;
+    private static ArrayList<Deal> deals;
 
-    public DealRepository(ArrayList<Deal> objects) {
-        this.deals = objects;
+    public DealRepository(Session session, ArrayList<Deal> deals) {
+        super(session);
+        DealRepository.deals = deals;
     }
 
-    public void placeDeal(Deal deal){
+    public void placeDeal(Deal deal) {
         deals.add(deal);
     }
 
-    public static DealRepository getInstance() {
-        if (instance == null) {
-            instance = new DealRepository(new ArrayList<>());
-        }
-        return instance;
-    }
-
-    public ArrayList<Deal> getDeals() {
+    public static ArrayList<Deal> getDeals() {
         return deals;
     }
 

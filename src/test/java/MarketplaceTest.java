@@ -2,7 +2,7 @@ import businesslogic.Ask;
 import businesslogic.Bet;
 import businesslogic.Deal;
 import businesslogic.Item;
-import dao.DB;
+import utills.DB;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -35,7 +35,7 @@ class MarketplaceTest {
     @BeforeAll
     public static void initDB() {
         DB.startDB();
-        administrator = new Administrator("adm", "321");
+        administrator = new Administrator();
         buyer = new Buyer("Dima", "123");
         seller = new Seller("Fedor", "123");
         item = new Item("abibas", "12");

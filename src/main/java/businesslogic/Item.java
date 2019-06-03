@@ -1,9 +1,11 @@
 package businesslogic;
 
-import storage.ItemRepository;
-
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import java.util.Objects;
 
+@Entity(name = "Item")
+@Table(name = "items")
 public class Item extends AbstractDomain {
 
     private String name;
@@ -12,7 +14,6 @@ public class Item extends AbstractDomain {
     public Item(String name, String size) {
         this.name = name;
         this.size = size;
-        ItemRepository.getInstance().addItem(this);
     }
 
     public Item() {
@@ -33,6 +34,7 @@ public class Item extends AbstractDomain {
     public void setSize(String size) {
         this.size = size;
     }
+
 
     @Override
     public boolean equals(Object o) {

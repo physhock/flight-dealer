@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Entity(name = "Administrator")
@@ -15,7 +16,7 @@ import java.util.stream.Collectors;
 public class Administrator extends User {
 
     @OneToMany
-    private ArrayList<Deal> deals = new ArrayList<>();
+    private List<Deal> deals = new ArrayList<>();
 
     public Administrator(ArrayList<Deal> deals) {
         this.deals = deals;
@@ -26,7 +27,7 @@ public class Administrator extends User {
         this.deals = deals;
     }
 
-    public ArrayList<Deal> getDeals() {
+    public List<Deal> getDeals() {
         return deals;
     }
 
@@ -36,7 +37,7 @@ public class Administrator extends User {
 
     private ArrayList<Deal> findDeals() {
 
-        return DealRepository.getInstance().getDeals().stream()
+        return DealRepository.getDeals().stream()
                 .filter(deal -> deal.getAdministrator().equals(this) && deal.getDealStatus().equals(Deal.DealStatus.OPEN))
                 .collect(Collectors.toCollection(ArrayList::new));
     }

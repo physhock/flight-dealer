@@ -40,12 +40,12 @@ public class Seller extends User {
 //
 //    }
 
-    private Optional<Bet> checkForBet(Ask ask) {
-
-        return BetRepository.getInstance().getBets()
-                .stream().filter(x -> x.getItem().equals(ask.getItem()) && x.getBet() == ask.getAsk())
-                .findFirst();
-
-    }
+//    private Optional<Bet> checkForBet(Ask ask) {
+//
+//        return BetRepository.getInstance().getBets()
+//                .stream().filter(x -> x.getItem().equals(ask.getItem()) && x.getBet() == ask.getAsk())
+//                .findFirst();
+//
+//    }
 
 }

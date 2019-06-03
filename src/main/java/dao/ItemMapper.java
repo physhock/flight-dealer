@@ -29,7 +29,7 @@ public class ItemMapper {
         //`size` not actually loadedMap key!
         // but item_id actually is!
         Long item_id = loadedMap.entrySet().stream()
-                .filter(item ->item.getValue().name.equals(name) && item.getValue().size.equals(size)).findFirst().get().getKey();
+                .filter(item ->item.getValue().getName().equals(name) && item.getValue().getSize().equals(size)).findFirst().get().getKey();
 
         if (item_id != null)
             return loadedMap.get(item_id);
@@ -66,7 +66,7 @@ public class ItemMapper {
 
     private void doInsert(Item item, PreparedStatement insertStatement) throws SQLException {
 
-        insertStatement.setString(1, item.name);
-        insertStatement.setObject(2, item.size, Types.OTHER);
+        insertStatement.setString(1, item.getName());
+        insertStatement.setObject(2, item.getSize(), Types.OTHER);
     }
 }
