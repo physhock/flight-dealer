@@ -1,7 +1,9 @@
 package user;
 
 import businesslogic.*;
+import services.AssignService;
 import storage.AskRepository;
+import storage.BetRepository;
 import storage.DealRepository;
 
 import javax.persistence.Entity;
@@ -11,8 +13,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-@Entity(name = "User")
-@Table(name = "users")
+@Entity(name = "Buyer")
+@Table(name = "buyers")
 public class Buyer extends User {
 
     @OneToMany
@@ -30,6 +32,11 @@ public class Buyer extends User {
         this.orders = orders;
     }
 
+    public Buyer(String userName, String password) {
+        super(userName, password, UserStatus.OFFLINE);
+    }
+
+
     public void addOrder(Order order) {
         orders.add(order);
     }
@@ -42,19 +49,25 @@ public class Buyer extends User {
         this.orders = orders;
     }
 
-//    public void makeBet(Item item, int bet) {
-//
-//        Bet newBet = new Bet(this, item, bet);
-//        Optional<Ask> ask = checkForAsk(newBet);
-//
-//        if (ask.isPresent()) {
-//            DealRepository.getInstance()
-//                    .placeDeal(AssignService.assignAdministratorToDeal(new Deal(ask.get(), newBet)));
-//            AskRepository.getInstance().removeAsk(ask.get());
-//        } else
-//            BetRepository.getInstance().placeBet(newBet);
-//
-//    }
+    public void makeBet(Item item, int bet) {
+
+        Bet newBet = new Bet(this, item, bet);
+        Optional<Ask> ask = checkForAsk(newBet);
+
+        if (ask.isPresent()) {
+            DealRepository.placeDeal(AssignService.assignAdministratorToDeal(new Deal(ask.get(), newBet)));
+            AskRepository.removeAsk(ask.get());
+        } else
+            BetRepository.placeBet(newBet);
+
+    }
+
+    private Optional<Ask> checkForAsk(Bet bet) {
+
+        return AskRepository.getAsks()
+                .stream().filter(x -> x.getItem().equals(bet.getItem()) && x.getAsk() == bet.getBet())
+                .findFirst();
+    }
 
     public void closeOrder(String trackingId) {
         Order delivered = orders.stream().filter(order -> order.getTrackingId().equals(trackingId)).findFirst().get();
@@ -64,11 +77,5 @@ public class Buyer extends User {
                 .findFirst().get().setDealStatus(Deal.DealStatus.CLOSED);
     }
 
-    private Optional<Ask> checkForAsk(Bet bet) {
-
-        return AskRepository.getAsks()
-                .stream().filter(x -> x.getItem().equals(bet.getItem()) && x.getAsk() == bet.getBet())
-                .findFirst();
-    }
 
 }

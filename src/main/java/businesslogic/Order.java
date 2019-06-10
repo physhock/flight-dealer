@@ -17,6 +17,14 @@ public class Order extends AbstractDomain {
         this.trackingId = trackingId;
     }
 
+    public void setItem(Item item) {
+        this.item = item;
+    }
+
+    public void setTrackingId(String trackingId) {
+        this.trackingId = trackingId;
+    }
+
     public Item getItem() {
         return item;
     }

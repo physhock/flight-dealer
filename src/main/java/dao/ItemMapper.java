@@ -7,7 +7,7 @@ import java.util.HashMap;
 
 public class ItemMapper {
 
-    public static final String COLUMNS = "item_id, item_name, size";
+    public static final String COLUMNS = "id, name, size";
     private HashMap<Long, Item> loadedMap;
     private Connection connection;
 
@@ -17,11 +17,11 @@ public class ItemMapper {
     }
 
     private String findStatement() {
-        return "SELECT item_id FROM item WHERE item_name = ? AND size = ?";
+        return "SELECT id FROM items WHERE name = ? AND size = ?";
     }
 
     private String insertStatement() {
-        return "INSERT INTO item (item_name,size) VALUES (?, ?) RETURNING item_id";
+        return "INSERT INTO items (name,size) VALUES (?, ?) RETURNING id";
     }
 
     public Item find(String name, String size) throws SQLException {
@@ -37,7 +37,7 @@ public class ItemMapper {
         try {
             findStatement = connection.prepareStatement(findStatement());
             findStatement.setString(1, name);
-            findStatement.setObject(2, size, Types.OTHER);
+            findStatement.setString(2, size);
             ResultSet resultSet = findStatement.executeQuery();
             resultSet.next();
             item_id = resultSet.getLong(1);
@@ -67,6 +67,6 @@ public class ItemMapper {
     private void doInsert(Item item, PreparedStatement insertStatement) throws SQLException {
 
         insertStatement.setString(1, item.getName());
-        insertStatement.setObject(2, item.getSize(), Types.OTHER);
+        insertStatement.setString(2, item.getSize());
     }
 }

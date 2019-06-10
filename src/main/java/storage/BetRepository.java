@@ -4,27 +4,41 @@ import businesslogic.Bet;
 import org.hibernate.Session;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class BetRepository extends Repository {
 
-    private ArrayList<Bet> bets;
+    private static ArrayList<Bet> bets = new ArrayList<>();
 
-    public BetRepository(Session session, ArrayList<Bet> bets) {
-        super(session);
-        this.bets = bets;
+    public BetRepository() {
+       bets = getBets();
     }
 
-    public ArrayList<Bet> getBets() {
+    public static ArrayList<Bet> getBets() {
+        Session session = newSession();
+        session.beginTransaction();
+        List<Bet> bets_raw = session.createQuery("from Bet", Bet.class).list();
+        session.getTransaction().commit();
+        session.close();
+        bets.addAll(bets_raw);
         return bets;
     }
 
-    public void removeBet(Bet bet) {
+    public static void removeBet(Bet bet) {
+        Session session = newSession();
+        session.beginTransaction();
+        session.remove(bet);
+        session.getTransaction().commit();
         bets.remove(bet);
     }
 
-    public void placeBet(Bet bet) {
+    public static void placeBet(Bet bet) {
+        Session session = newSession();
+        session.beginTransaction();
+        session.save(bet);
+        session.getTransaction().commit();
 
-        this.bets.add(bet);
+        bets.add(bet);
     }
 
 }

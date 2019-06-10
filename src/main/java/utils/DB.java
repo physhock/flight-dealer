@@ -1,30 +1,28 @@
-package utills;
+package utils;
 
 import dao.ItemMapper;
-import org.hibernate.Session;
-import storage.AskRepository;
-import storage.BetRepository;
-import storage.DealRepository;
+import storage.*;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.Properties;
 
 public class DB {
 
     private ItemMapper itemMapper;
+    private ItemRepository itemRepository;
     private AskRepository askRepository;
     private BetRepository betRepository;
     private DealRepository dealRepository;
+    private UserRepository userRepository;
 
-    public ItemMapper getItemMapper() {
-        return itemMapper;
+    public ItemRepository getItemRepository() {
+        return itemRepository;
     }
 
-    public void setItemMapper(ItemMapper itemMapper) {
-        this.itemMapper = itemMapper;
+    public void setItemRepository(ItemRepository itemRepository) {
+        this.itemRepository = itemRepository;
     }
 
     public AskRepository getAskRepository() {
@@ -51,6 +49,13 @@ public class DB {
         this.dealRepository = dealRepository;
     }
 
+    public UserRepository getUserRepository() {
+        return userRepository;
+    }
+
+    public void setUserRepository(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
 
     public void startDB() {
 
@@ -61,9 +66,9 @@ public class DB {
         props.setProperty("ssl", "false");
         try {
             Connection connection = DriverManager.getConnection(url, props);
-            sessionFactoryHibernate();
             System.out.println("DB connected");
             itemMapper = new ItemMapper(connection);
+            initRepositories();
 
         } catch (SQLException e) {
             System.out.println("Connection failure.");
@@ -71,16 +76,12 @@ public class DB {
         }
     }
 
-
-    private void sessionFactoryHibernate() {
-
-        Session session = HibernateConf.sessionFactory().openSession();
-        System.out.println("Hibernate connected " + session.isConnected());
-        askRepository = new AskRepository(session, new ArrayList<>());
-        betRepository = new BetRepository(session, new ArrayList<>());
-        dealRepository = new DealRepository(session, new ArrayList<>());
-
+    private void initRepositories() {
+        askRepository = new AskRepository();
+        betRepository = new BetRepository();
+        dealRepository = new DealRepository();
+        userRepository = new UserRepository();
+        itemRepository = new ItemRepository(itemMapper);
 
     }
-
 }

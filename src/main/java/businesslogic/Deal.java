@@ -31,6 +31,11 @@ public class Deal extends AbstractDomain {
         this.dealStatus = dealStatus;
     }
 
+    public Deal(Ask ask, Bet bet) {
+        this.ask = ask;
+        this.bet = bet;
+    }
+
     public Deal() {
     }
 
@@ -59,6 +64,7 @@ public class Deal extends AbstractDomain {
     // 2. Add queries to repos
     // 3. FIX TESTS!
     // 4. Start implementing UI
+    // 5. Report!!!
 
     public DealStatus getDealStatus() {
         return dealStatus;

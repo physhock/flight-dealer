@@ -2,6 +2,7 @@ package user;
 
 import org.hibernate.annotations.ColumnTransformer;
 import org.hibernate.annotations.GenericGenerator;
+import storage.UserRepository;
 
 import javax.persistence.*;
 import java.util.Objects;
@@ -16,11 +17,11 @@ public abstract class User {
 
     private String userName;
 
-    @Column(name = "pswd")
-    @ColumnTransformer(
-            read = "decrypt( 'AES', '00', pswd  )",
-            write = "encrypt('AES', '00', ?)"
-    )
+//    @Column(name = "pswd")
+//    @ColumnTransformer(
+//            read = "decrypt( 'AES', '00', pswd  )",
+//            write = "encrypt('AES', '00', ?)"
+//    )
     private String password;
 
     @Enumerated(EnumType.ORDINAL)
@@ -75,12 +76,14 @@ public abstract class User {
         }
 
         setUserStatus(UserStatus.ONLINE);
+        UserRepository.updateUser(this);
         return 0;
     }
 
     public int logOut() {
 
         setUserStatus(UserStatus.OFFLINE);
+        UserRepository.updateUser(this);
         return 0;
     }
 

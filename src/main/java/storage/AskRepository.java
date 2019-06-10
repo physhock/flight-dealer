@@ -4,28 +4,45 @@ import businesslogic.Ask;
 import businesslogic.Item;
 import org.hibernate.Session;
 
+import javax.persistence.Query;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.List;
 import java.util.NoSuchElementException;
 
 public class AskRepository extends Repository {
 
-    private static ArrayList<Ask> asks;
+    private static ArrayList<Ask> asks = new ArrayList<>();
 
-    public AskRepository(Session session, ArrayList<Ask> asks) {
-        super(session);
-        AskRepository.asks = asks;
+    public AskRepository() {
+        asks = getAsks();
     }
 
     public static ArrayList<Ask> getAsks() {
+        Session session = newSession();
+        session.beginTransaction();
+        List<Ask> asks_raw = session.createQuery("from Ask", Ask.class).list();
+        session.getTransaction().commit();
+        session.close();
+        asks.addAll(asks_raw);
         return asks;
     }
 
-    public void placeAsk(Ask ask) {
+    public static void placeAsk(Ask ask) {
+        Session session = newSession();
+        session.beginTransaction();
+        session.save(ask);
+        session.getTransaction().commit();
+        session.close();
         asks.add(ask);
     }
 
-    public void removeAsk(Ask ask) {
+    public static void removeAsk(Ask ask) {
+        Session session = newSession();
+        session.beginTransaction();
+        session.remove(ask);
+        session.getTransaction().commit();
+        session.close();
         asks.remove(ask);
     }
 

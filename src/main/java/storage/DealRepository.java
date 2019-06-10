@@ -6,14 +6,18 @@ import org.hibernate.Session;
 import java.util.ArrayList;
 
 public class DealRepository extends Repository {
-    private static ArrayList<Deal> deals;
 
-    public DealRepository(Session session, ArrayList<Deal> deals) {
-        super(session);
-        DealRepository.deals = deals;
+    private static ArrayList<Deal> deals = new ArrayList<>();
+
+    public DealRepository() {
+        deals = getDeals();
     }
 
-    public void placeDeal(Deal deal) {
+    public static void placeDeal(Deal deal) {
+        Session session = newSession();
+        session.beginTransaction();
+        session.save(deal);
+        session.getTransaction().commit();
         deals.add(deal);
     }
 

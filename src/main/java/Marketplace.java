@@ -1,4 +1,4 @@
-import utills.DB;
+import utils.DB;
 
 public class Marketplace {
 

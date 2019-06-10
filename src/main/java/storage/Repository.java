@@ -1,13 +1,17 @@
 package storage;
 
 import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import utils.HibernateUtil;
 
-public abstract class Repository {
+abstract class Repository {
 
-    private Session session;
+    private static SessionFactory sessionFactory;
 
-    public Repository(Session session) {
-        this.session = session;
+    Repository() {
+        sessionFactory = HibernateUtil.getSessionFactory();
     }
+
+    static Session newSession(){ return  sessionFactory.openSession(); }
 
 }

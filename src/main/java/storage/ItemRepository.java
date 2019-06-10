@@ -2,7 +2,6 @@ package storage;
 
 import businesslogic.Item;
 import dao.ItemMapper;
-import org.hibernate.Session;
 
 import java.sql.SQLException;
 
@@ -11,8 +10,7 @@ public class ItemRepository extends Repository {
     private static ItemRepository instance;
     private ItemMapper itemMapper;
 
-    public ItemRepository(Session session, ItemMapper itemMapper) {
-        super(session);
+    public ItemRepository(ItemMapper itemMapper) {
         this.itemMapper = itemMapper;
     }
 

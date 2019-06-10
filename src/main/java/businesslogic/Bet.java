@@ -2,6 +2,7 @@ package businesslogic;
 
 import user.Buyer;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
