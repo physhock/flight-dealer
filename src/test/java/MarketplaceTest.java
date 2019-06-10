@@ -33,7 +33,6 @@ class MarketplaceTest {
 
         Buyer fedya = new Buyer("Fedor", "12345");
         UserRepository.addUser(fedya);
-        fedya.logIn();
         assertFalse(UserRepository.getUsers(fedya.getClass().getSimpleName()).isEmpty());
 
         Item item = new Item("nike", "12.5");
@@ -43,6 +42,14 @@ class MarketplaceTest {
         assertFalse(BetRepository.getBets().isEmpty());
 
         Seller dima = new Seller("Dmitriy", "12312");
+        UserRepository.addUser(dima);
+
+        Administrator pavel = new Administrator("Pavel", "123333");
+        UserRepository.addUser(pavel);
+
+        dima.makeAsk(item, 1000);
+        //Deal created ( ask == bet)
+        assertFalse(DealRepository.getDeals().isEmpty());
 
     }
 

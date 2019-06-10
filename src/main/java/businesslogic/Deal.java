@@ -65,6 +65,7 @@ public class Deal extends AbstractDomain {
     // 3. FIX TESTS!
     // 4. Start implementing UI
     // 5. Report!!!
+    // 6.
 
     public DealStatus getDealStatus() {
         return dealStatus;
