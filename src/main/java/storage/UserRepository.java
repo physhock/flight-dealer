@@ -1,6 +1,8 @@
 package storage;
 
+import businesslogic.Order;
 import org.hibernate.Session;
+import user.Buyer;
 import user.User;
 
 import java.util.ArrayList;
@@ -32,6 +34,18 @@ public class UserRepository extends Repository {
         users.add(user);
     }
 
+//    public static List<Order>  getOrders(Buyer buyer){
+//        Session session = newSession();
+//        session.beginTransaction();
+//        List <Order> orders = session
+//                .createQuery("from Order where buyer_id = :id", Order.class)
+//               // .setParameter("id", buyer.getId()).list();
+//        session.getTransaction().commit();
+//        session.close();
+//
+//        return orders;
+//
+//    }
 
     public static void updateUser(User user) {
         Session session = newSession();

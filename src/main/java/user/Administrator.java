@@ -22,9 +22,18 @@ public class Administrator extends User {
         this.deals = deals;
     }
 
+    public Administrator(){
+
+    }
+
     public Administrator(String userName, String password, UserStatus userStatus, ArrayList<Deal> deals) {
         super(userName, password, userStatus);
         this.deals = deals;
+    }
+
+    public Administrator(String userName, String password) {
+        super(userName, password, UserStatus.ONLINE);
+        this.deals = new ArrayList<>();
     }
 
     public List<Deal> getDeals() {

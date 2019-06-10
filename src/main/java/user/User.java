@@ -76,14 +76,14 @@ public abstract class User {
         }
 
         setUserStatus(UserStatus.ONLINE);
-        UserRepository.updateUser(this);
+        //UserRepository.updateUser(this);
         return 0;
     }
 
     public int logOut() {
 
         setUserStatus(UserStatus.OFFLINE);
-        UserRepository.updateUser(this);
+       // UserRepository.updateUser(this);
         return 0;
     }
 
