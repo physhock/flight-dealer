@@ -60,11 +60,10 @@ public class Deal extends AbstractDomain {
     }
 
     //TODO
-    // 1. Update BP logic
-    // 2. Add queries to repos
-    // 3. FIX TESTS!
-    // 4. Start implementing UI
-    // 5. Report!!!
+    // 1. Front without services, methods in domains -- OK ( look at tests! )
+    // 2. Admin method (service mb) on login mb mb -> scrap new items from somewhere
+    // 3. Ask for the min item cost: Post item ->  json min ask for this item ( answer )
+    // 4. REPORT!!!
 
     public DealStatus getDealStatus() {
         return dealStatus;
