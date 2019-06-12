@@ -7,7 +7,6 @@ import java.sql.SQLException;
 
 public class ItemRepository extends Repository {
 
-    private static ItemRepository instance;
     private ItemMapper itemMapper;
 
     public ItemRepository(ItemMapper itemMapper) {

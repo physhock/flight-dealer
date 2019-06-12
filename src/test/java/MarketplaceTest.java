@@ -51,6 +51,11 @@ class MarketplaceTest {
         //Deal created ( ask == bet)
         assertFalse(DealRepository.getDeals().isEmpty());
 
+        Deal deal = DealRepository.getDeals().get(0);
+        pavel.makeDecision(deal, Deal.DealStatus.APPROVED);
+        //Deliver in process
+        assertFalse(fedya.getOrders().isEmpty());
+        
     }
 
 

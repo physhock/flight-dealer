@@ -3,6 +3,7 @@ package user;
 import businesslogic.Deal;
 import businesslogic.Order;
 import storage.DealRepository;
+import storage.OrderRepository;
 
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
@@ -58,7 +59,8 @@ public class Administrator extends User {
         if (dealStatus.equals(Deal.DealStatus.APPROVED)) {
             // payment operations ( money transfer to the seller )
             // and deliver item to the buyer
-            deal.getBuyer().addOrder(new Order(deal.getItem(), "123SPBRU"));
+            Order order = new Order(deal.getItem(), "123SPBRU", deal.getBuyer());
+            OrderRepository.placeOrder(order);
         }
     }
 

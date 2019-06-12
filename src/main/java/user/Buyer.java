@@ -1,12 +1,10 @@
 package user;
 
 import businesslogic.*;
-import org.hibernate.Session;
 import services.AssignService;
 import storage.AskRepository;
 import storage.BetRepository;
 import storage.DealRepository;
-import storage.UserRepository;
 
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
