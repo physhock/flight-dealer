@@ -8,10 +8,10 @@ import java.util.List;
 
 public class BetRepository extends Repository {
 
-    private static ArrayList<Bet> bets = new ArrayList<>();
+    private static ArrayList<Bet> bets;
 
     public BetRepository() {
-       bets = getBets();
+       bets = new ArrayList<>();
     }
 
     public static ArrayList<Bet> getBets() {

@@ -1,8 +1,11 @@
 package dao;
 
+import businesslogic.Ask;
 import businesslogic.Item;
+import javafx.util.Pair;
 
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class ItemMapper {
@@ -22,6 +25,24 @@ public class ItemMapper {
 
     private String insertStatement() {
         return "INSERT INTO items (name,size) VALUES (?, ?) RETURNING id";
+    }
+
+    private String selectStatement() {
+        return "SELECT * FROM items";
+    }
+
+    private String selectWithAsksStatement() {
+        return "SELECT items.id, items.name, items.size, min(a.ask)\n" +
+                "FROM items\n" +
+                "left outer join asks a on items.id = a.item_id\n" +
+                "group by items.id;";
+    }
+
+    private String selectWithBetsStatement() {
+        return "SELECT items.id, items.name, items.size, max(b.bet)\n" +
+                "FROM items\n" +
+                "left outer join bets b on items.id = b.item_id\n" +
+                "group by items.id;";
     }
 
     public Item find(String name, String size) throws SQLException {
@@ -50,6 +71,23 @@ public class ItemMapper {
         }
     }
 
+    public ArrayList<Item> getAll() throws SQLException {
+        PreparedStatement selectStatement;
+        try {
+            selectStatement = connection.prepareStatement(selectStatement());
+            ResultSet resultSet = selectStatement.executeQuery();
+            ArrayList <Item> items = new ArrayList<>();
+            while (resultSet.next()){
+                Item item = new Item(resultSet.getString(2), resultSet.getString(3));
+                item.setId(resultSet.getLong(1));
+                items.add(item);
+            }
+            return items;
+        } catch (SQLException e) {
+            throw new SQLException(e);
+        }
+    }
+
     public Long insert(Item item) throws SQLException {
         PreparedStatement insertStatement = null;
         try {
@@ -68,5 +106,36 @@ public class ItemMapper {
 
         insertStatement.setString(1, item.getName());
         insertStatement.setString(2, item.getSize());
+    }
+
+    public ArrayList<Pair<Item, Integer>> getAllWithBets() throws SQLException{
+        PreparedStatement selectWithAsksStatement;
+        try {
+            selectWithAsksStatement = connection.prepareStatement(selectWithBetsStatement());
+            return getPairs(selectWithAsksStatement);
+        } catch (SQLException e) {
+            throw new SQLException(e);
+        }
+    }
+
+    public ArrayList<Pair<Item, Integer>> getAllWithAsks() throws SQLException{
+        PreparedStatement selectWithAsksStatement;
+        try {
+            selectWithAsksStatement = connection.prepareStatement(selectWithAsksStatement());
+            return getPairs(selectWithAsksStatement);
+        } catch (SQLException e) {
+            throw new SQLException(e);
+        }
+    }
+
+    private ArrayList<Pair<Item, Integer>> getPairs(PreparedStatement selectWithAsksStatement) throws SQLException {
+        ResultSet resultSet = selectWithAsksStatement.executeQuery();
+        ArrayList<Pair<Item, Integer>> items = new ArrayList<>();
+        while (resultSet.next()){
+            Item item = new Item(resultSet.getString(2), resultSet.getString(3));
+            item.setId(resultSet.getLong(1));
+            items.add(new Pair<>(item, resultSet.getInt(4)));
+        }
+        return items;
     }
 }

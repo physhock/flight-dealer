@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.AdministratorController">
+   <children>
+      <TableView fx:id="deal_table" editable="true" layoutX="144.0" layoutY="96.0" prefHeight="200.0" prefWidth="315.0">
+         <columns>
+            <TableColumn fx:id="id_col" prefWidth="62.0" text="Deal" />
+            <TableColumn fx:id="status_col" prefWidth="126.0" text="Status" />
+            <TableColumn fx:id="name_col" prefWidth="126.0" text="Name" />
+         </columns>
+      </TableView>
+      <Label layoutX="282.0" layoutY="71.0" text="Deals">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <Button fx:id="change_status_button" layoutX="242.0" layoutY="304.0" mnemonicParsing="false" onAction="#change_status" text="Change status" />
+      <ComboBox fx:id="comboBox" layoutX="141.0" layoutY="304.0" prefHeight="25.0" prefWidth="91.0" promptText="status" />
+      <Button fx:id="logout_button" layoutX="544.0" layoutY="371.0" mnemonicParsing="false" onAction="#logout" text="Logout" />
+   </children>
+</AnchorPane>

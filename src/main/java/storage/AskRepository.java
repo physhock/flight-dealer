@@ -12,10 +12,10 @@ import java.util.NoSuchElementException;
 
 public class AskRepository extends Repository {
 
-    private static ArrayList<Ask> asks = new ArrayList<>();
+    private static ArrayList<Ask> asks;
 
     public AskRepository() {
-        asks = getAsks();
+        asks = new ArrayList<>();
     }
 
     public static ArrayList<Ask> getAsks() {

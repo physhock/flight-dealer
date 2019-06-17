@@ -36,10 +36,8 @@ public class Seller extends User {
         AskRepository.placeAsk(newAsk);
         Optional<Bet> bet = checkForBet(newAsk);
 
-        if (bet.isPresent()) {
-            DealRepository.placeDeal(AssignService.assignAdministratorToDeal(new Deal(newAsk, bet.get())));
-            //BetRepository.removeBet(bet.get());
-        }
+        //BetRepository.removeBet(bet.get());
+        bet.ifPresent(value -> DealRepository.placeDeal(AssignService.assignAdministratorToDeal(new Deal(newAsk, value))));
     }
 
     private Optional<Bet> checkForBet(Ask ask) {

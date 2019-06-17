@@ -53,12 +53,9 @@ public class Administrator extends User {
     }
 
     public void makeDecision(Deal deal, Deal.DealStatus dealStatus) {
-
         deal.setDealStatus(dealStatus);
-
+        DealRepository.updateDeal(deal);
         if (dealStatus.equals(Deal.DealStatus.APPROVED)) {
-            // payment operations ( money transfer to the seller )
-            // and deliver item to the buyer
             Order order = new Order(deal.getItem(), "123SPBRU", deal.getBuyer());
             OrderRepository.placeOrder(order);
         }

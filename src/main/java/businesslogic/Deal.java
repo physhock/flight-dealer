@@ -93,6 +93,10 @@ public class Deal extends AbstractDomain {
     public enum DealStatus {
         OPEN,
         APPROVED,
-        CLOSED
+        CLOSED;
+
+        public String getName(){
+            return String.valueOf(DealStatus.this);
+        }
     }
 }

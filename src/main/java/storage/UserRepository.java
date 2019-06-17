@@ -1,12 +1,16 @@
 package storage;
 
 import businesslogic.Order;
+import javassist.NotFoundException;
 import org.hibernate.Session;
+import user.Administrator;
 import user.Buyer;
 import user.User;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Optional;
 
 public class UserRepository extends Repository {
 
@@ -24,6 +28,16 @@ public class UserRepository extends Repository {
         users.addAll(user_raw);
 
         return users;
+    }
+
+    public static User findUser(String userName, String userPass){
+
+        Optional<User> administrator =  getUsers("Administrator").stream().filter(user -> user.getUserName().equals(userName)).findFirst();
+        Optional<User> buyer =  getUsers("Buyer").stream().filter(user -> user.getUserName().equals(userName)).findFirst();
+        Optional<User> seller =  getUsers("Seller").stream().filter(user -> user.getUserName().equals(userName)).findFirst();
+
+
+        return administrator.orElse(buyer.orElse(seller.orElseThrow(() -> new NoSuchElementException("No user found with username " + userName))));
     }
 
     public static void addUser(User user) {

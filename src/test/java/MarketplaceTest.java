@@ -1,23 +1,16 @@
-import businesslogic.Ask;
-import businesslogic.Bet;
 import businesslogic.Deal;
 import businesslogic.Item;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import storage.*;
+import storage.BetRepository;
+import storage.DealRepository;
+import storage.UserRepository;
 import user.Administrator;
 import user.Buyer;
 import user.Seller;
-import user.User;
 import utils.DB;
 
-import java.sql.SQLException;
-import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class MarketplaceTest {
 
@@ -27,7 +20,7 @@ class MarketplaceTest {
     private static Item item;
 
     @Test
-    public void insertUserDB(){
+    public void businessProcessTest() {
         DB db = new DB();
         db.startDB();
 
@@ -55,10 +48,8 @@ class MarketplaceTest {
         pavel.makeDecision(deal, Deal.DealStatus.APPROVED);
         //Deliver in process
         assertFalse(fedya.getOrders().isEmpty());
-        
+
     }
-
-
 
 
 //    private ArrayList<Ask> asks = AskRepository.getInstance().getAsks();

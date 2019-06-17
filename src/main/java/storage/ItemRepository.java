@@ -2,18 +2,20 @@ package storage;
 
 import businesslogic.Item;
 import dao.ItemMapper;
+import javafx.util.Pair;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class ItemRepository extends Repository {
 
-    private ItemMapper itemMapper;
+    private static ItemMapper itemMapper;
 
     public ItemRepository(ItemMapper itemMapper) {
-        this.itemMapper = itemMapper;
+        ItemRepository.itemMapper = itemMapper;
     }
 
-    public void addItem(Item item) {
+    public static void addItem(Item item) {
         try {
             item.setId(itemMapper.insert(item));
         } catch (SQLException e) {
@@ -29,8 +31,39 @@ public class ItemRepository extends Repository {
             e.printStackTrace();
             return null;
         }
+    }
+
+    public static ArrayList<Item> getAllItems(){
+
+        try {
+            return itemMapper.getAll();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
 
     }
 
+    public static ArrayList<Pair<Item, Integer>> getAllItemsWithLowestAsks(){
+
+        try {
+            return itemMapper.getAllWithAsks();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+
+    }
+
+    public static ArrayList<Pair<Item, Integer>> getAllItemsWithHighestBet(){
+
+        try {
+            return itemMapper.getAllWithBets();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+
+    }
 
 }

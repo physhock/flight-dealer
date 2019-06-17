@@ -34,9 +34,9 @@ public class AssignService {
 
 
     private static Administrator findFirstOnline() {
-        return UserRepository.getUsers("Administrator").stream()
+
+        return (Administrator) UserRepository.getUsers("Administrator").stream()
                 .filter((x -> x.getUserStatus().equals(User.UserStatus.ONLINE)))
-                .map(Administrator.class::cast)
                 .findFirst().get();
     }
 

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.BuyerController">
+   <children>
+      <TableView fx:id="item_table" editable="true" layoutX="27.0" layoutY="50.0" prefHeight="200.0" prefWidth="222.0">
+        <columns>
+          <TableColumn fx:id="name_col" prefWidth="75.0" text="Name" />
+          <TableColumn fx:id="size_col" prefWidth="53.0" text="Size" />
+            <TableColumn fx:id="ask_col" prefWidth="97.0" text="Lowest ask" />
+        </columns>
+      </TableView>
+      <Label layoutX="83.0" layoutY="25.0" text="Items">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <Button fx:id="place_bet_button" layoutX="112.0" layoutY="258.0" mnemonicParsing="false" onAction="#place_bet" text="Place bet" />
+      <TextField fx:id="bet_field" layoutX="27.0" layoutY="258.0" prefHeight="25.0" prefWidth="65.0" />
+      <Button fx:id="close_order_button" layoutX="438.0" layoutY="258.0" mnemonicParsing="false" onAction="#close_order" text="Close order" />
+      <TableView fx:id="order_table" editable="true" layoutX="395.0" layoutY="50.0" prefHeight="200.0" prefWidth="200.0">
+         <columns>
+            <TableColumn fx:id="order_name_col" prefWidth="75.0" text="Name" />
+            <TableColumn fx:id="track_col" prefWidth="124.0" text="Tracking number" />
+         </columns>
+      </TableView>
+      <Label layoutX="446.0" layoutY="25.0" text="Orders">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <Button fx:id="logout_button" layoutX="534.0" layoutY="361.0" mnemonicParsing="false" onAction="#logout" text="Logout" />
+   </children>
+</AnchorPane>

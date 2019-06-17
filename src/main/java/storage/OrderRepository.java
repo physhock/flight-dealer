@@ -2,9 +2,9 @@ package storage;
 
 import businesslogic.Order;
 import org.hibernate.Session;
-import user.Buyer;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class OrderRepository extends Repository {
 
@@ -20,7 +20,12 @@ public class OrderRepository extends Repository {
     }
 
     public static ArrayList<Order> getOrders() {
-        return orders;
+        Session session = newSession();
+        session.beginTransaction();
+        List<Order> orders = session.createQuery("from Order", Order.class).list();
+        session.getTransaction().commit();
+        OrderRepository.orders.addAll(orders);
+        return OrderRepository.orders;
     }
 
     public static void removeOrder(Order order) {

@@ -4,13 +4,14 @@ import businesslogic.Deal;
 import org.hibernate.Session;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class DealRepository extends Repository {
 
-    private static ArrayList<Deal> deals = new ArrayList<>();
+    private static ArrayList<Deal> deals;
 
     public DealRepository() {
-        deals = getDeals();
+        deals = new ArrayList<>();
     }
 
     public static void placeDeal(Deal deal) {
@@ -22,7 +23,19 @@ public class DealRepository extends Repository {
     }
 
     public static ArrayList<Deal> getDeals() {
-        return deals;
+        Session session = newSession();
+        session.beginTransaction();
+        List<Deal> deals = session.createQuery("from Deal", Deal.class).list();
+        session.getTransaction().commit();
+        DealRepository.deals.addAll(deals);
+        return DealRepository.deals;
+    }
+
+    public static void updateDeal(Deal deal) {
+        Session session = newSession();
+        session.beginTransaction();
+        session.update(deal);
+        session.getTransaction().commit();
     }
 
 
