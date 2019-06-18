@@ -27,6 +27,7 @@ public class DealRepository extends Repository {
         session.beginTransaction();
         List<Deal> deals = session.createQuery("from Deal", Deal.class).list();
         session.getTransaction().commit();
+        DealRepository.deals.clear();
         DealRepository.deals.addAll(deals);
         return DealRepository.deals;
     }

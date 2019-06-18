@@ -24,6 +24,7 @@ public class OrderRepository extends Repository {
         session.beginTransaction();
         List<Order> orders = session.createQuery("from Order", Order.class).list();
         session.getTransaction().commit();
+        OrderRepository.orders.clear();
         OrderRepository.orders.addAll(orders);
         return OrderRepository.orders;
     }

@@ -24,6 +24,7 @@ public class AskRepository extends Repository {
         List<Ask> asks_raw = session.createQuery("from Ask", Ask.class).list();
         session.getTransaction().commit();
         session.close();
+        asks.clear();
         asks.addAll(asks_raw);
         return asks;
     }

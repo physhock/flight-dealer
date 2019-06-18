@@ -20,6 +20,7 @@ public class BetRepository extends Repository {
         List<Bet> bets_raw = session.createQuery("from Bet", Bet.class).list();
         session.getTransaction().commit();
         session.close();
+        bets.clear();
         bets.addAll(bets_raw);
         return bets;
     }

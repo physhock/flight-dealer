@@ -60,7 +60,6 @@ public class Deal extends AbstractDomain {
     }
 
     //TODO
-    // 1. Front without services, methods in domains -- OK ( look at tests! )
     // 2. Admin method (service mb) on login mb mb -> scrap new items from somewhere
     // 3. Ask for the min item cost: Post item ->  json min ask for this item ( answer )
     // 4. REPORT!!!
