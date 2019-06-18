@@ -2,7 +2,6 @@ package server;
 
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
-import org.omg.CosNaming.NamingContextPackage.NotFound;
 import storage.ItemRepository;
 
 import java.io.IOException;
@@ -13,34 +12,11 @@ import java.net.URLDecoder;
 import java.util.*;
 
 public class ConnectionHandler implements HttpHandler {
+
     /*
     Handle GET request, read Item name\size and send minimal ask
      */
 
-
-    @Override
-    public void handle(HttpExchange httpExchange) throws IOException {
-
-        Map<String, Object> parameters = new HashMap<>();
-        URI requestedUri = httpExchange.getRequestURI();
-        String query = requestedUri.getRawQuery();
-
-        parseQuery(query, parameters);
-
-        String response = "Minimal ask for the "+parameters.get("name")+" "+parameters.get("size")+" is:"+ lookForAsk(parameters);
-        httpExchange.sendResponseHeaders(200, response.length());
-        OutputStream outputStream= httpExchange.getResponseBody();
-        outputStream.write(response.getBytes());
-        outputStream.close();
-
-    }
-
-    private Integer lookForAsk(Map<String, Object> parameters) {
-        return ItemRepository.getAllItemsWithLowestAsks().stream()
-                 .filter(itemIntegerPair -> itemIntegerPair.getKey().getName().equals(parameters.get("name"))
-                         && itemIntegerPair.getKey().getSize().equals(parameters.get("size")))
-                .findFirst().orElseThrow(NoSuchElementException::new).getValue();
-    }
 
     private static void parseQuery(String query, Map<String,
             Object> parameters) throws UnsupportedEncodingException {
@@ -78,6 +54,30 @@ public class ConnectionHandler implements HttpHandler {
                 }
             }
         }
+    }
+
+    @Override
+    public void handle(HttpExchange httpExchange) throws IOException {
+
+        Map<String, Object> parameters = new HashMap<>();
+        URI requestedUri = httpExchange.getRequestURI();
+        String query = requestedUri.getRawQuery();
+
+        parseQuery(query, parameters);
+
+        String response = "Minimal ask for the " + parameters.get("name") + " " + parameters.get("size") + " is:" + lookForAsk(parameters);
+        httpExchange.sendResponseHeaders(200, response.length());
+        OutputStream outputStream = httpExchange.getResponseBody();
+        outputStream.write(response.getBytes());
+        outputStream.close();
+
+    }
+
+    private Integer lookForAsk(Map<String, Object> parameters) {
+        return ItemRepository.getAllItemsWithLowestAsks().stream()
+                .filter(itemIntegerPair -> itemIntegerPair.getKey().getName().equals(parameters.get("name"))
+                        && itemIntegerPair.getKey().getSize().equals(parameters.get("size")))
+                .findFirst().orElseThrow(NoSuchElementException::new).getValue();
     }
 
 }

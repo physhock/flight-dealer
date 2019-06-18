@@ -13,6 +13,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
+import services.DataImportService;
 import storage.DealRepository;
 import user.Administrator;
 
@@ -42,6 +43,8 @@ public class AdministratorController {
         name_col.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().getItem().getName()));
 
         deal_table.getColumns().setAll(id_col, status_col, name_col);
+
+        DataImportService.loadNewObjectsFromFile();
     }
 
     public void change_status(ActionEvent actionEvent) {
