@@ -15,6 +15,7 @@ public class ConnectionHandler implements HttpHandler {
 
     /*
     Handle GET request, read Item name\size and send minimal ask
+    Example: http://localhost:8000/?name=adidas&size=9,5
      */
 
 
