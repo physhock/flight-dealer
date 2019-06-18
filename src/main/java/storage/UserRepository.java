@@ -61,12 +61,4 @@ public class UserRepository extends Repository {
 //
 //    }
 
-    public static void updateUser(User user) {
-        Session session = newSession();
-        boolean is = session.contains(user);
-        session.beginTransaction();
-        session.saveOrUpdate(user.getClass().getSimpleName(), user);
-        session.getTransaction().commit();
-        users.add(user);
-    }
 }

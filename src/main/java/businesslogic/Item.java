@@ -4,15 +4,17 @@ import javax.persistence.*;
 import java.util.Objects;
 
 @Entity(name = "Item")
-@Table(name = "items")
+@Table(name = "items",
+        uniqueConstraints = {@UniqueConstraint(columnNames = {"name", "size"})}
+        )
 public class Item {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(unique = true)
+
     private String name;
-    @Column(unique = true)
+
     private String size;
 
     public Item(String name, String size) {

@@ -1,16 +1,15 @@
 import businesslogic.Deal;
 import businesslogic.Item;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import storage.BetRepository;
-import storage.DealRepository;
-import storage.UserRepository;
+import storage.*;
 import user.Administrator;
 import user.Buyer;
 import user.Seller;
 import utils.DB;
 
-
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class MarketplaceTest {
 
@@ -19,171 +18,71 @@ class MarketplaceTest {
     private static Seller seller;
     private static Item item;
 
-    @Test
-    public void businessProcessTest() {
+    @BeforeAll
+    public static void init(){
+
         DB db = new DB();
         db.startDB();
 
-        Buyer fedya = new Buyer("Fedor", "12345");
-        UserRepository.addUser(fedya);
-        assertFalse(UserRepository.getUsers(fedya.getClass().getSimpleName()).isEmpty());
+        administrator = new Administrator("Pavel", "123");
+        buyer = new Buyer("Fedor", "123");
+        seller = new Seller("Dima", "123");
+        item = new Item("nike", "13,5");
 
-        Item item = new Item("nike", "12.5");
-        db.getItemRepository().addItem(item);
-
-        fedya.makeBet(item, 1000);
-        assertFalse(BetRepository.getBets().isEmpty());
-
-        Seller dima = new Seller("Dmitriy", "12312");
-        UserRepository.addUser(dima);
-
-        Administrator pavel = new Administrator("Pavel", "123333");
-        UserRepository.addUser(pavel);
-
-        dima.makeAsk(item, 1000);
-        //Deal created ( ask == bet)
-        assertFalse(DealRepository.getDeals().isEmpty());
-
-        Deal deal = DealRepository.getDeals().get(0);
-        pavel.makeDecision(deal, Deal.DealStatus.APPROVED);
-        //Deliver in process
-        assertFalse(fedya.getOrders().isEmpty());
+        UserRepository.addUser(administrator);
+        UserRepository.addUser(buyer);
+        UserRepository.addUser(seller);
+        ItemRepository.addItem(item);
 
     }
 
 
-//    private ArrayList<Ask> asks = AskRepository.getInstance().getAsks();
-//    private ArrayList<Bet> bets = BetRepository.getInstance().getBets();
-//    private ArrayList<Deal> deals = DealRepository.getInstance().getDeals();
-//
-//    @BeforeAll
-//    public static void initDB() {
-//        DB.startDB();
-//        administrator = new Administrator();
-//        buyer = new Buyer("Dima", "123");
-//        seller = new Seller("Fedor", "123");
-//        item = new Item("abibas", "12");
-//    }
-//
-//    @BeforeEach
-//    public void logInUsers() {
-//
-//        administrator.logIn();
-//        buyer.logIn();
-//        seller.logIn();
-//
-//    }
-//
-//    @Test
-//    public void testForBP() {
-//
-//        // Insta-sell
-//        buyer.makeBet(item, 2500);
-//        seller.makeAsk(item, 2500);
-//
-//        // Old ask & bet removed from lists
-//        assertTrue(asks.isEmpty() && bets.isEmpty());
-//
-//        // Check deal creation
-//        assertTrue(deals.stream().anyMatch(deal -> deal.getBuyer().equals(buyer) && deal.getSeller().equals(seller) && deal.getAdministrator().equals(administrator)));
-//
-//        // Approve deal by admin, and send item to the buyer
-//        administrator.makeDecision(DealRepository.getInstance().getDeals()
-//                .stream().filter(deal1 -> deal1.getAdministrator().equals(administrator)).findFirst().get(), Deal.DealStatus.APPROVED);
-//
-//        // Check for the item in order list
-//        assertTrue(buyer.getOrders().stream().anyMatch(order -> order.getItem().equals(item)));
-//
-//        // Order delivered to the buyer
-//        buyer.closeOrder(buyer.getOrders().stream().filter(order -> order.getItem().equals(item)).findFirst().get().getTrackingId());
-//
-//        // Check for the deal status
-//        assertTrue(deals.stream().anyMatch(deal -> deal.getBuyer().equals(buyer)
-//                && deal.getSeller().equals(seller)
-//                && deal.getAdministrator().equals(administrator)
-//                && deal.getDealStatus().equals(Deal.DealStatus.CLOSED)));
-//
-//        logOutUsers();
-//    }
-//
-//    @Test
-//    public void instantSell() {
-//        // Insta-sell
-//        buyer.makeBet(item, 2500);
-//        seller.makeAsk(item, 2500);
-//
-//        // Check deal creation
-//        assertTrue(deals.stream().anyMatch(deal -> deal.getBuyer().equals(buyer) && deal.getSeller().equals(seller) && deal.getAdministrator().equals(administrator)));
-//
-//    }
-//
-//    @Test
-//    public void placeAsk() {
-//        // Insta-sell
-//        seller.makeAsk(item, 2500);
-//
-//        // Check if ask placed
-//        assertTrue(asks.stream().anyMatch(ask -> ask.getSeller().equals(seller)));
-//    }
-//
-//    @Test
-//    public void approveDeal() {
-//
-//        // Insta-sell
-//        buyer.makeBet(item, 2500);
-//        seller.makeAsk(item, 2500);
-//
-//        // Approve deal by admin, and send item to the buyer
-//        administrator.makeDecision(DealRepository.getInstance().getDeals()
-//                .stream().filter(deal1 -> deal1.getAdministrator().equals(administrator)).findFirst().get(), Deal.DealStatus.APPROVED);
-//
-//
-//        // Check for the item in order list
-//        assertTrue(buyer.getOrders().stream().anyMatch(order -> order.getItem().equals(item)));
-//    }
-//
-//    @Test
-//    public void instantBuy() {
-//        // Insta-buy
-//        seller.makeAsk(item, 2500);
-//        buyer.makeBet(item, 2500);
-//
-//        // Check deal creation
-//        assertTrue(deals.stream().anyMatch(deal -> deal.getBuyer().equals(buyer) && deal.getSeller().equals(seller) && deal.getAdministrator().equals(administrator)));
-//
-//    }
-//
-//    @Test
-//    public void placeBet() {
-//        // Insta-sell
-//        buyer.makeBet(item, 2500);
-//
-//        // Check if ask placed
-//        assertTrue(bets.stream().anyMatch(ask -> ask.getBuyer().equals(buyer)));
-//    }
-//
-//    @AfterEach
-//    public void logOutUsers() {
-//
-//        administrator.logOut();
-//        buyer.logOut();
-//        seller.logOut();
-//
-//    }
-//
-//    @Test
-//    public void itemMapperTestInsert() {
-//        Long id = item.getId();
-//        assertTrue(id != 0);
-//
-//    }
-//
-//    @Test
-//    public void itemMapperTestSearch() {
-//
-//        assertEquals(item, ItemRepository.getInstance().searchByNameAndSize(item.name, item.size));
-//        System.out.println(ItemRepository.getInstance().searchByNameAndSize(item.name, item.size).getId());
-//
-//    }
+    @Test
+    public void businessProcess() {
+
+        assertFalse(UserRepository.getUsers(buyer.getClass().getSimpleName()).isEmpty());
+
+        ItemRepository.addItem(item);
+
+        buyer.makeBet(item, 1000);
+        assertFalse(BetRepository.getBets().isEmpty());
+
+        seller.makeAsk(item, 1000);
+        //Deal created ( ask == bet)
+        assertFalse(DealRepository.getDeals().isEmpty());
+
+        Deal deal = DealRepository.getDeals().get(0);
+        administrator.makeDecision(deal, Deal.DealStatus.APPROVED);
+
+    }
+    @Test
+    public void makeBet(){
+
+        buyer.makeBet(item, 1000);
+        assertTrue(BetRepository.getBets().stream()
+                .anyMatch(bet -> bet.getBuyer().equals(buyer)));
+    }
+
+    @Test
+    public void makeAsk(){
+
+        seller.makeAsk(item, 1000);
+        assertTrue(AskRepository.getAsks().stream()
+                .anyMatch(ask -> ask.getSeller().equals(seller)));
+
+    }
+
+    @Test
+    public void makeDeal(){
+
+
+        buyer.makeBet(item, 1000);
+        seller.makeAsk(item, 1000);
+
+        assertTrue(DealRepository.getDeals().stream()
+                .anyMatch(deal -> deal.getSeller().equals(seller) && deal.getBuyer().equals(buyer)));
+
+    }
+
 
 }
